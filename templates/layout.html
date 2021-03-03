@@ -31,12 +31,17 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#"> <h1 style="font-family: 'Pacifico';">Taskly</h1> </a>
+          <a class="navbar-brand" href="#"> <h1 style="font-family: 'Pacifico'; margin-right: 10px; margin-top: 5px; margin-bottom: 10px;">Taskly</h1> </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
                 {% if session.user_id %}
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="#" style="color: white;"><button class="btn btn-outline-primary me-2" type="button" style="margin-left: 10px;">Add QuickTask</button></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" style="color: white;"><button class="btn btn-outline-success me-2" type="button" style="margin-left: 5px;">Add Task</button></a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" style="color: white;"><button class="btn btn-outline-danger me-2" type="button" style="margin-left: 5px;">Add Book</button></a></li>
+                    </ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/logout" style="color: white;">Log Out</a></li>
                     </ul>

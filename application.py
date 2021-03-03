@@ -4,6 +4,7 @@ from flask_session import Session
 import sqlite3
 from helpers import login_required
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 
 # Configure the application
 app = Flask(__name__)
@@ -22,8 +23,7 @@ Session(app)
 @app.route('/')
 @login_required
 def index():
-
-    return 'Hello World'
+    return redirect("/dashboard")
 
 
 # LOGIN ROUTE --------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ def login():
         if len(rows) == 1 and check_password_hash(rows[0][1], request.form.get("password")):
 
             # Remember which user has logged in
-            session["user_id"] = rows[0][0]
+            session["user_id"] = int(rows[0][0])
 
             # Redirect user to home page
             flash("logged in")
@@ -94,6 +94,9 @@ def logout():
 # REGISTER ROUTE -------------------------------------------------------------------------------------------------------------
 @app.route("/register", methods=["GET", "POST"])
 def register():
+
+    # Forget any user_id
+    session.clear()
 
     if request.method == "POST":
 
@@ -139,7 +142,7 @@ def register():
 
         # Query database to insert row
         username = request.form.get("username")
-        name = request.form.get("username")
+        name = request.form.get("name")
 
         db.execute("INSERT INTO users (name,username,hash) VALUES(?,?,?)", (name, username, hashed))
         db.execute("SELECT id FROM users WHERE username = ?", username)
@@ -150,7 +153,7 @@ def register():
         connection.close()
 
         # Remember which user has logged in
-        session["user_id"] = userID[0][0]
+        session["user_id"] = int(userID[0])
 
         # Redirect user to home page
         return redirect("/")
@@ -158,3 +161,25 @@ def register():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("register.html")
+
+
+# DASHBOARD ROUTE
+@app.route('/dashboard')
+@login_required
+def dashboard():
+
+    if request.method == "GET":
+
+        # Start a connection to the database
+        connection = sqlite3.connect('tasks.db')
+        db = connection.cursor()
+        userID = session["user_id"]
+
+        db.execute("SELECT name,points FROM users WHERE id = (?)", (userID,))
+        row = db.fetchone()
+
+        name = row[0]
+        points = row[1]
+
+        
+        return render_template("dashboard.html", name=name, points=points)
