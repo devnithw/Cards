@@ -1,0 +1,4 @@
+Flask
+sqlite3
+Flask-Session
+
