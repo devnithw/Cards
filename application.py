@@ -29,12 +29,12 @@ def index():
 # LOGIN ROUTE --------------------------------------------------------------------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
-    # Forget any user_id
-    session.clear()
-
+    
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        # Forget any user_id
+        session.clear()
 
         # Ensure username was submitted
         if not request.form.get("username"):
