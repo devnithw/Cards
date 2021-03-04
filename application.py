@@ -164,7 +164,7 @@ def register():
 
 
 # DASHBOARD ROUTE
-@app.route('/dashboard')
+@app.route('/dashboard', methods=["GET", "POST"])
 @login_required
 def dashboard():
 
@@ -175,11 +175,55 @@ def dashboard():
         db = connection.cursor()
         userID = session["user_id"]
 
+        # Query the database for name and points
         db.execute("SELECT name,points FROM users WHERE id = (?)", (userID,))
         row = db.fetchone()
 
+        # Set name and point variables
         name = row[0]
         points = row[1]
 
+        #Query the database for stasks and crate a list of data rows
+        db.execute("SELECT title,date,description FROM stasks WHERE user_id = (?)", (userID,))
+        stasks = db.fetchall()
+
         
-        return render_template("dashboard.html", name=name, points=points)
+
+
+
+
+
+
+        
+        return render_template("dashboard.html", name=name, points=points, stasks=stasks)
+
+    if request.method == "POST":
+
+        if request.form.get("deleteStask"):
+            title = request.form.get("deleteStask")
+
+            # Start a connection to the database
+            connection = sqlite3.connect('tasks.db')
+            db = connection.cursor()
+
+            # Delete the row from the database
+            db.execute("DELETE FROM stasks WHERE title = (?)", (title,))
+
+            # Close the database connection
+            connection.commit()
+            connection.close()
+
+            print(title + "is deleted")
+        
+
+
+
+
+        return redirect("/dashboard")
+        
+
+
+
+    
+
+

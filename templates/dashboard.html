@@ -10,5 +10,43 @@
     <h1 class="display-6" style="font-size: 30px;">You have {{ points }} points, Get work done!</h1>
 </div>
 
+<!--Quick Tasks // Stasks-->
+<br>
+<h2 style="text-align: left; margin-bottom: 5px;"><small class="text-muted">QuickTasks</small></h2>
+
+{% if stasks|length < 1 %}
+
+    <h4 style="text-align: left; margin-bottom: 5px;"><small class="text-muted">You have no QuickTasks</small></h4>
+
+{% else %}
+
+    <div class="row">
+
+        {% for stask in stasks %}        
+            <div class="col-lg" style="padding: 0px;">
+                <div class="card" style="margin: 10px; text-align: left;">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ stask[0] }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ stask[1] }}</h6>
+                    <p class="card-text">{{ stask[2] }}</p>
+                    <form action="/dashboard" method="post">
+                        <button class="btn btn-primary" type="submit" name="deleteStask" value="{{ stask[0] }}">Complete</a>                    
+                    </form>
+
+
+                    
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+
+
+
+
+
     
 {% endblock %}
