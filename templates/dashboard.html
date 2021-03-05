@@ -4,6 +4,12 @@
     Dashboard
 {% endblock %}
 
+{% block script %}
+{% endblock %}
+
+
+
+
 {% block main %}
 <div style="text-align: left;">
     <h1 class="display-1" >Hello {{  name }}</h1>
@@ -21,20 +27,16 @@
 {% else %}
 
     <div class="row">
-
         {% for stask in stasks %}        
             <div class="col-lg" style="padding: 0px;">
                 <div class="card" style="margin: 10px; text-align: left;">
                     <div class="card-body">
-                    <h5 class="card-title">{{ stask[0] }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ stask[1] }}</h6>
-                    <p class="card-text">{{ stask[2] }}</p>
-                    <form action="/dashboard" method="post">
-                        <button class="btn btn-primary" type="submit" name="deleteStask" value="{{ stask[0] }}">Complete</a>                    
-                    </form>
-
-
-                    
+                        <h5 class="card-title">{{ stask[0] }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ stask[1] }}</h6>
+                        <p class="card-text">{{ stask[2] }}</p>
+                        <form action="/dashboard" method="post">
+                            <button class="btn btn-primary" type="submit" name="deleteStask" value="{{ stask[0] }}">Complete</a>                    
+                        </form>
                     </div>
                 </div>
             </div>
@@ -42,6 +44,74 @@
     </div>
 
 {% endif %}
+
+
+<!--Books // Books-->
+<br>
+<h2 style="text-align: left; margin-bottom: 5px;"><small class="text-muted">Books</small></h2>
+
+{% if books|length < 1 %}
+
+    <h4 style="text-align: left; margin-bottom: 5px;"><small class="text-muted">You have no Books</small></h4>
+
+{% else %}
+
+    <div class="row">
+        {% for book in books %}        
+            <div class="col-auto" style="padding: 0px;">
+                <div class="card" style="margin: 10px; text-align: left; width: 500px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book[1] }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ book[3]}} Pages out of {{ book[2] }}</h6>
+
+                        <!--Progress Bar-->
+                        {% set progress = book[3] / book[2] * 100 %} 
+
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{progress}}%;" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">{{progress}}%</div>
+                        </div>
+                        <br>
+
+                        {% if progress < 100 %}
+                        <form action="/dashboard" method="post">
+                            <div class="form-row align-items-center">
+                                <div class="col-auto">
+                                    <label class="sr-only" for="inlineFormInput">Page</label>
+                                    <input type="number" class="form-control mb-2" name="currentPage" placeholder="Current Page" min="1">
+                                </div>                      
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary mb-2" name="setPage" value="{{ book[0] }}">Set</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-danger mb-2" name="deleteBook" value="{{ book[0] }}">Remove Book</button>
+                                </div>
+                            </div>        
+                        </form>
+                        {% else %}
+
+                        <form action="/dashboard" method="post">
+                            <button type="submit" class="btn btn-danger mb-2" name="deleteBook" value="{{ book[0] }}">Remove Book</button>
+                        </form>
+
+                        {% endif %}
+                        
+
+
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+
+
+
+
+
+
 
 
 

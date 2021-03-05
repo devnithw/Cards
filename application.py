@@ -187,24 +187,30 @@ def dashboard():
         db.execute("SELECT title,date,description FROM stasks WHERE user_id = (?)", (userID,))
         stasks = db.fetchall()
 
-        
-
-
-
-
-
+        #Query the database for books and crate a list of data rows
+        db.execute("SELECT id,title,totalPages,currentPage FROM books WHERE user_id = (?)", (userID,))
+        books = db.fetchall()
 
         
-        return render_template("dashboard.html", name=name, points=points, stasks=stasks)
+
+
+
+
+
+
+        
+        return render_template("dashboard.html", name=name, points=points, stasks=stasks, books=books)
 
     if request.method == "POST":
 
+        # Start a connection to the database
+        connection = sqlite3.connect('tasks.db')
+        db = connection.cursor()
+        userID = session["user_id"]
+
+        # Deleting Stask from database
         if request.form.get("deleteStask"):
             title = request.form.get("deleteStask")
-
-            # Start a connection to the database
-            connection = sqlite3.connect('tasks.db')
-            db = connection.cursor()
 
             # Delete the row from the database
             db.execute("DELETE FROM stasks WHERE title = (?)", (title,))
@@ -213,8 +219,62 @@ def dashboard():
             connection.commit()
             connection.close()
 
+            flash("Task removed")
             print(title + "is deleted")
-        
+
+        # Updating currentPage of books
+        if request.form.get("setPage"):
+            bookID = request.form.get("setPage")
+
+            if not request.form.get("currentPage"):
+                flash("Please provide valid page number")
+                return redirect("/dashboard")
+
+            currentPage = int(request.form.get("currentPage"))
+
+            if currentPage < 1 :
+                flash("Choose a valid number of page")
+                return redirect("/dashboard")                
+
+
+            # Delete the row from the database
+            db.execute("UPDATE books SET currentPage = (?) WHERE id = (?)", (currentPage,bookID))
+
+            # Add score if user read the book completely
+            db.execute("SELECT totalPages FROM books WHERE id = (?)", (bookID,))
+            totalPages = db.fetchone()
+
+            if currentPage == totalPages[0]:
+
+                db.execute("SELECT points FROM users WHERE id = (?)", (userID,))
+                points = db.fetchone()
+
+                # Update points variable
+                newpoints = points[0] + totalPages[0]
+
+                # Update points column in database
+                db.execute("UPDATE users SET points = (?) WHERE id = (?)", (newpoints, userID))
+                flash("You have earned points!")
+
+            # Close the database connection
+            connection.commit()
+            connection.close()
+
+            print("updated")
+
+        # Deleting book from database
+        if request.form.get("deleteBook"):
+            bookID = request.form.get("deleteBook")
+
+            db.execute("DELETE FROM books WHERE id = (?)", (bookID,))
+
+            # Close the database connection
+            connection.commit()
+            connection.close()
+
+            print(bookID + "is deleted")
+            flash("Book removed")
+
 
 
 
