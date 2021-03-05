@@ -45,6 +45,46 @@
 
 {% endif %}
 
+<!--Big Tasks // Mtasks-->
+<br>
+<h2 style="text-align: left; margin-bottom: 5px;"><small class="text-muted">BigTasks</small></h2>
+
+{% if mtasks|length < 1 %}
+
+    <h4 style="text-align: left; margin-bottom: 5px;"><small class="text-muted">You have no BigTasks</small></h4>
+
+{% else %}
+
+    <div class="row">
+        {% for mtask in mtasks %}        
+            <div class="col-lg" style="padding: 0px;">
+                <div class="card" style="margin: 10px; text-align: left; width: 500px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mtask[1] }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ mtask[2] }}</h6>
+                        <br>
+                        <form action="/dashboard" method="post">
+                            <button class="btn btn-primary" type="submit" name="deleteMtask" value="{{ mtask[0] }}">Complete</a>                    
+                        </form>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for subtask in mtask[3] %}
+                            <li class="list-group-item">{{subtask}}</li>
+                        {% endfor %}
+                    </ul>
+                    
+                   
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+
+
+
+
 
 <!--Books // Books-->
 <br>
@@ -105,16 +145,6 @@
     </div>
 
 {% endif %}
-
-
-
-
-
-
-
-
-
-
 
 
 

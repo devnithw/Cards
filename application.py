@@ -1,3 +1,8 @@
+# Taskly - CS50 Final Project by Devnith Wijesinghe
+# A simple task and schedule managing web application created using Python with Flask, SQLite and Bootstrap 
+
+# ----------------------------------------------------------------------------------------------------------------------------
+
 from flask import Flask, flash, redirect, render_template, request, session
 from tempfile import mkdtemp
 from flask_session import Session 
@@ -19,14 +24,14 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-# INDEX ROUTE---------------------------------------------------------------------------------------
+# INDEX ROUTE----------------------------------------------------------------------------------------------------------------
 @app.route('/')
 @login_required
 def index():
     return redirect("/dashboard")
 
 
-# LOGIN ROUTE --------------------------------------------------------------------------------------
+# LOGIN ROUTE ---------------------------------------------------------------------------------------------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
     
@@ -191,15 +196,33 @@ def dashboard():
         db.execute("SELECT id,title,totalPages,currentPage FROM books WHERE user_id = (?)", (userID,))
         books = db.fetchall()
 
+        #Query the database for mtasks and crate a list of data rows
+        db.execute("SELECT id,title,date FROM mtasks WHERE user_id = (?)", (1,))
+        items = db.fetchall()
+        mtasks= list()
+
+        # Iterate over each mtask in mtasks list 
+        for item in items:
+            
+            # The mtask item is a tuple // Convert it to a list 
+            item = list(item)
+            
+            # Query the database for the relavant subtasks
+            db.execute("SELECT title FROM subtasks WHERE mtask_id = (?)", (item[0],))
+            subtasks = db.fetchall()
+            
+            # Recreate a list containing the subtasks
+            temp = list()
+            for task in subtasks:
+                temp.append(task[0])
+
+            # Put the temporary list of subtasks in the bigger mtask list
+            item.append(temp)
+            mtasks.append(item)
+
+
         
-
-
-
-
-
-
-        
-        return render_template("dashboard.html", name=name, points=points, stasks=stasks, books=books)
+        return render_template("dashboard.html", name=name, points=points, stasks=stasks, books=books, mtasks=mtasks)
 
     if request.method == "POST":
 
@@ -274,6 +297,25 @@ def dashboard():
 
             print(bookID + "is deleted")
             flash("Book removed")
+
+        # Deleting Mtask from database
+        if request.form.get("deleteMtask"):
+            mtask_id = request.form.get("deleteMtask")
+
+            # Delete all related subtasks
+            db.execute("DELETE FROM subtasks WHERE mtask_id = (?)", (mtask_id,))
+
+
+
+            # Delete the row from the database
+            db.execute("DELETE FROM mtasks WHERE id = (?)", (mtask_id,))
+
+            # Close the database connection
+            connection.commit()
+            connection.close()
+
+            flash("Big Task removed")
+            print("Mtask is deleted")
 
 
 
