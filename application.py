@@ -324,7 +324,11 @@ def dashboard():
         return redirect("/dashboard")
         
 
-
+# ADD ROUTE --------------------------------------------------------------------------------------------------------------------
+@app.route('/add', methods=["GET", "POST"])
+@login_required
+def add():
+    return render_template("add.html") 
 
     
 

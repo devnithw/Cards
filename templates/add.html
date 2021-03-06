@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#quick" role="tab" aria-controls="home" aria-selected="true">Add QuickTask</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#big" role="tab" aria-controls="profile" aria-selected="false">Add BigTask</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#book" role="tab" aria-controls="contact" aria-selected="false">Add Book</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+
+    <div class="tab-pane fade show active" id="quick" role="tabpanel" aria-labelledby="home-tab">
+      <br>
+      <!--Add QuickTask-->
+      <h1 style="text-align: left;">Add a QuickTask</h1>
+      <br>
+      <form style="text-align: left;">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Task Title</label>
+          <input class="form-control form-control-lg" type="text" placeholder="Your task in brief" name="title">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Description</label>
+          <input type="text" class="form-control" id="desc" placeholder="Your task in detail" name="desc">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Due Date</label>
+          <input type="text" class="form-control" id="date" placeholder="The due date of your task" name="date">
+        </div>
+        <button type="submit" class="btn btn-primary">Add QuickTask</button>
+      </form>
+
+    </div>
+
+    <div class="tab-pane fade" id="big" role="tabpanel" aria-labelledby="profile-tab">
+      <!--Add BigTask-->
+      <br>
+      <h1 style="text-align: left;">Add a BigTask</h1>
+      <br>
+      <form style="text-align: left;">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Task Title</label>
+          <input class="form-control form-control-lg" type="text" placeholder="Your task in brief" name="title">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Due Date</label>
+          <input type="text" class="form-control" id="date" placeholder="The due date of your task" name="date">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Subtasks</label>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Subtask</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Subtask (Optional)" name="subtask1">
+          </div>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Subtask</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Subtask (Optional)" name="subtask2">
+          </div>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Subtask</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Subtask (Optional)" name="subtask3">
+          </div>
+        </div>
+        
+
+        <button type="submit" class="btn btn-success">Add QuickTask</button>
+      </form>
+
+
+
+
+
+
+    </div>
+
+    <div class="tab-pane fade" id="book" role="tabpanel" aria-labelledby="contact-tab">
+
+      <!--Add Book-->
+      <br>
+      <h1 style="text-align: left;">Add a Book</h1>
+      <br>
+      <form style="text-align: left;">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Book Title</label>
+          <input class="form-control form-control-lg" type="text" placeholder="The title of your book" name="title">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Total Pages</label>
+          <input type="number" class="form-control" id="desc" placeholder="Total number of pages in your book" name="totalPages" min="1">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Current Page</label>
+          <input type="number" class="form-control" id="date" placeholder="The page you are reading right now" name="currentPage" min="1">
+        </div>
+        <button type="submit" class="btn btn-danger">Add Book</button>
+      </form>
+
+
+    </div>
+  </div>
+{% endblock %}
