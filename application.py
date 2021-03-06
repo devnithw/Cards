@@ -1,4 +1,4 @@
-# Taskly - CS50 Final Project by Devnith Wijesinghe
+# Cards - CS50 Final Project by Devnith Wijesinghe
 # A simple task and schedule managing web application created using Python with Flask, SQLite and Bootstrap 
 
 # ----------------------------------------------------------------------------------------------------------------------------
@@ -328,8 +328,127 @@ def dashboard():
 @app.route('/add', methods=["GET", "POST"])
 @login_required
 def add():
-    return render_template("add.html") 
 
+    if request.method == "GET":
+        return render_template("add.html") 
+
+# ADD QUICKTASK ROUTE
+@app.route('/quick', methods=["POST"])
+@login_required
+def quick():
+
+    # Start a connection to the database
+    connection = sqlite3.connect('tasks.db')
+    db = connection.cursor()
+    userID = session["user_id"]
+
+    # Check if user has input all the fields
+    if not request.form.get("title") or not request.form.get("desc") or not request.form.get("date"):
+        flash("Please complete all fields")
+        return redirect("/add")
+    
+    # Store the field data in variables
+    title = request.form.get("title")
+    desc = request.form.get("desc")
+    date = request.form.get("date")
+
+    # Insert data into database
+    db.execute("INSERT INTO stasks (title,description,date,user_id) VALUES (?,?,?,?)", (title,desc,date,userID))
+
+    # Log in the console
+    print("Added succesfully")
+
+    # Close database connection
+    connection.commit()
+    connection.close()
+
+    flash("QuickTask added successfully")    
+    return redirect("/dashboard")
     
 
+# ADD BOOK ROUTE
+@app.route('/book', methods=["POST"])
+@login_required
+def book():
 
+    # Start a connection to the database
+    connection = sqlite3.connect('tasks.db')
+    db = connection.cursor()
+    userID = session["user_id"]
+
+    # Check if user has input all the fields
+    if not request.form.get("title") or not request.form.get("totalPages") or not request.form.get("currentPage"):
+        flash("Please complete all fields")
+        return redirect("/add")
+    
+    # Store the field data in variables
+    title = request.form.get("title")
+    totalPages = int(request.form.get("totalPages"))
+    currentPage = int(request.form.get("currentPage"))
+
+    if totalPages < currentPage:
+        flash("Provided page values are not valid - Please recheck")
+        return redirect("/add")
+
+    # Insert data into database
+    db.execute("INSERT INTO books (title,totalPages,currentPage,user_id) VALUES (?,?,?,?)", (title,totalPages,currentPage,userID))
+
+    # Log in the console
+    print("Added succesfully")
+
+    # Close database connection
+    connection.commit()
+    connection.close()
+
+    flash("Book added successfully")    
+    return redirect("/dashboard")
+
+
+# ADD BIGTASK ROUTE
+@app.route('/big', methods=["POST"])
+@login_required
+def big():
+
+    # Start a connection to the database
+    connection = sqlite3.connect('tasks.db')
+    db = connection.cursor()
+    userID = session["user_id"]
+
+    # Check if user has input all the fields
+    if not request.form.get("title") or not request.form.get("date"):
+        flash("Please complete Title and Date fields")
+        return redirect("/add")
+    
+    # Store the field data in variables
+    title = request.form.get("title")
+    date = request.form.get("date")
+    subtasks = list()
+
+    for i in range(1, 6, 1):
+        temp = request.form.get("subtask{n}".format(n = i))
+
+        if not temp:
+            continue
+
+        subtasks.append(temp)
+    
+    # Insert data into database
+    db.execute("INSERT INTO mtasks (title,date,user_id) VALUES (?,?,?)", (title,date,userID))
+
+    # Get the last id of the table
+    db.execute("SELECT id FROM mtasks ORDER BY id DESC LIMIT 1")
+    lastID = db.fetchone()
+
+    for task in subtasks:
+        db.execute("INSERT INTO subtasks (title,mtask_id) VALUES (?,?)", (task,lastID[0]))
+    
+    
+    # Log in the console
+    print("Added succesfully")
+
+    # Close database connection
+    connection.commit()
+    connection.close()
+
+    flash("BigTask added successfully")    
+    return redirect("/dashboard")

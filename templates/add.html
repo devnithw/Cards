@@ -23,7 +23,7 @@
       <!--Add QuickTask-->
       <h1 style="text-align: left;">Add a QuickTask</h1>
       <br>
-      <form style="text-align: left;">
+      <form style="text-align: left;" method="POST" action="/quick">
         <div class="form-group">
           <label for="exampleInputEmail1">Task Title</label>
           <input class="form-control form-control-lg" type="text" placeholder="Your task in brief" name="title">
@@ -46,7 +46,7 @@
       <br>
       <h1 style="text-align: left;">Add a BigTask</h1>
       <br>
-      <form style="text-align: left;">
+      <form style="text-align: left;" method="POST" action="/big">
         <div class="form-group">
           <label for="exampleInputEmail1">Task Title</label>
           <input class="form-control form-control-lg" type="text" placeholder="Your task in brief" name="title">
@@ -75,6 +75,18 @@
             </div>
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Subtask (Optional)" name="subtask3">
           </div>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Subtask</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Subtask (Optional)" name="subtask4">
+          </div>
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Subtask</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Subtask (Optional)" name="subtask5">
+          </div>
         </div>
         
 
@@ -94,7 +106,7 @@
       <br>
       <h1 style="text-align: left;">Add a Book</h1>
       <br>
-      <form style="text-align: left;">
+      <form style="text-align: left;" method="POST" action="/book">
         <div class="form-group">
           <label for="exampleInputEmail1">Book Title</label>
           <input class="form-control form-control-lg" type="text" placeholder="The title of your book" name="title">
@@ -112,5 +124,6 @@
 
 
     </div>
+    
   </div>
 {% endblock %}
