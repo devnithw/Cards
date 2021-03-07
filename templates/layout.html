@@ -11,6 +11,9 @@
 
     <!--Get favicon-->
 
+    <!--Get fontsawesome icons-->
+    <script src="https://kit.fontawesome.com/03ca44ad11.js" crossorigin="anonymous"></script>
+
 
     <!--Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -42,9 +45,8 @@
           <div class="collapse navbar-collapse" id="navbarNav">
                 {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/add" style="color: white;"><button class="btn btn-outline-primary me-2" type="button" style="margin-left: 10px;">Add QuickTask</button></a></li>
-                        <li class="nav-item"><a class="nav-link" href="/add" style="color: white;"><button class="btn btn-outline-success me-2" type="button" style="margin-left: 5px;">Add Task</button></a></li>
-                        <li class="nav-item"><a class="nav-link" href="/add" style="color: white;"><button class="btn btn-outline-danger me-2" type="button" style="margin-left: 5px;">Add Book</button></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/dashboard" style="color: white;"><button class="btn btn-outline-primary me-2" type="button" style="margin-left: 10px;">Dashboard</button></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/add" style="color: white;"><button class="btn btn-outline-success me-2" type="button" style="margin-left: 10px;">+ New</button></a></li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/logout" style="color: white;">Log Out</a></li>
@@ -76,6 +78,15 @@
 
     <footer class="small text-center text-muted">
         <a href="https://github.com/devnithw/Taskly">Final Project for CS50</a> by Devnith Wijesinghe
+
+        <p>
+            <br>
+            <a href="https://twitter.com/DevtasticDev"><i class="fab fa-twitter fa-2x"></i></a>&nbsp; &nbsp;
+            <a href="https://github.com/devnithw"><i class="fab fa-github fa-2x"></i></i></a>
+        </p>
+        <p>
+            <br>
+        </p>
     </footer>
 
 

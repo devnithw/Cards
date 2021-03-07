@@ -59,7 +59,7 @@ def login():
         db = connection.cursor()
 
         # Query database for username
-        db.execute("SELECT id,hash FROM users WHERE username = ?", username)
+        db.execute("SELECT id,hash FROM users WHERE username = ?", (username,))
         rows = db.fetchall()
 
         connection.close()
@@ -135,7 +135,7 @@ def register():
         db = connection.cursor()
 
         # check if the username already exists
-        db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        db.execute("SELECT * FROM users WHERE username = ?", (request.form.get("username"),))
         rows = db.fetchall()
 
         if len(rows) != 0:
@@ -150,7 +150,7 @@ def register():
         name = request.form.get("name")
 
         db.execute("INSERT INTO users (name,username,hash) VALUES(?,?,?)", (name, username, hashed))
-        db.execute("SELECT id FROM users WHERE username = ?", username)
+        db.execute("SELECT id FROM users WHERE username = ?", (username,))
         userID = db.fetchone()
 
         # Close the database
@@ -197,7 +197,7 @@ def dashboard():
         books = db.fetchall()
 
         #Query the database for mtasks and crate a list of data rows
-        db.execute("SELECT id,title,date FROM mtasks WHERE user_id = (?)", (1,))
+        db.execute("SELECT id,title,date FROM mtasks WHERE user_id = (?)", (userID,))
         items = db.fetchall()
         mtasks= list()
 
