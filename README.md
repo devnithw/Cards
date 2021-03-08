@@ -1,4 +1,4 @@
-# Cards
+# Cards - Final Project for CS50
 #### Video Demo:  https://www.youtube.com/watch?v=lPQKE0sFiUU
 #### Description:
 Cards is a customizable task management web application with a scoring system created using Python with Flask, SQL and Bootstrap. In this application the user can create a personal account for storing their data 
