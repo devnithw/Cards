@@ -1,7 +1,7 @@
 # Cards
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://www.youtube.com/watch?v=lPQKE0sFiUU
 #### Description:
-Cards is a customizable task management web application with a scoring system created using Python with Flask, SQlite and Bootstrap. In this application the user can create a personal account for storing their data 
+Cards is a customizable task management web application with a scoring system created using Python with Flask, SQL and Bootstrap. In this application the user can create a personal account for storing their data 
 and manage, plan and schedule their daily tasks using customized features. It offers the user various forms of tasking methods such as QuickTasks, BigTasks and Books. When the user completes
 tasks the application awards the user with points as entertainment. The information about the user's tasks are displayed as cards on their user dashboard.
 
